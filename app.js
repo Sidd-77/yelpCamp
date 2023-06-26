@@ -2,10 +2,10 @@ const express = require("express");
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+const Campground = require("./models/campground");
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp',{
     useNewUrlParser: true,
-    useCreateIndex: true,
     useUnifiedTopology: true,
 })
 
@@ -14,6 +14,14 @@ db.on("error",console.error.bind(console, "connection error"));
 db.once("open",()=>{
     console.log("Database connected");
 });
+
+new Campground({title: "A",price: "334"}).save()
+.then(()=>{
+    console.log("Success");
+}).catch((err)=>{
+    console.log(err);
+})
+
 
 
 app.set('view engine','ejs');
