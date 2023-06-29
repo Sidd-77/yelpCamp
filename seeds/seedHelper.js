@@ -1,0 +1,43 @@
+module.exports.discriptors = [
+    'Forest',
+    'Market',
+    'Hawaii',
+    'Natural',
+    'Maple',
+    'Itzy',
+    'Rakon',
+    'Misty',
+    'Golden',
+    'Enchanted',
+    'Hidden',
+    'Whispering',
+    'Emerald',
+    'Wild',
+    'Serene',
+    'Majestic',
+    'Tranquil',
+    'Mystic',
+    'Breathtaking'
+];
+
+module.exports.places = [
+    'Flats',
+    'Village',
+    'Canyon',
+    'Pond',
+    'Group Camp',
+    'River',
+    'Spring',
+    'Sands',
+    'Meadow',
+    'Valley',
+    'Grove',
+    'Peak',
+    'Island',
+    'Cliffs',
+    'Harbor',
+    'Haven',
+    'Oasis',
+    'Garden',
+    'Retreat'
+];
