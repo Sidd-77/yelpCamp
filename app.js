@@ -8,8 +8,9 @@ const ejsMate = require('ejs-mate');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require("./utils/ExpressError");
 //const Joi = require("joi");
-const campgroundSchema = require('./schemas')
+const {campgroundSchema, reviewSchema} = require('./schemas');
 //teacher did {campgroundSchema} here but it breaks the app
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp',{
     useNewUrlParser: true,
@@ -47,6 +48,18 @@ const validateCampground = (req,res,next) => {
     //console.log(result);
 }
 
+const validateReview = (req,res,next) => {
+    const result = reviewSchema.validate(req.body);
+    if(result.error){
+        console.log(result.error);
+        const msg = result.error.details.map(el => el.message).join(',');
+        console.error(msg);
+        throw new ExpressError(msg, 400);
+    }else{
+        next();
+    }
+}
+
 
 app.post('/campgrounds', validateCampground, catchAsync (async (req,res,next)=>{
     //if(!req.body.campground) throw new ExpressError("Invalid Campgroud Data",400);
@@ -69,8 +82,17 @@ app.get('/campgrounds/new',(req,res)=>{
 })
 
 app.get('/campgrounds/:id',catchAsync(async (req,res,next)=>{
-    const campground = await Campground.findById(req.params.id);
+    const campground = await Campground.findById(req.params.id).populate('reviews');
     res.render('campgrounds/show',{campground})
+}))
+
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req,res,) => {
+    const campground = await Campground.findById(req.params.id);
+    const review = new Review(req.body.review);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
 }))
 
 app.get('/campgrounds/:id/edit',catchAsync(async (req,res,next)=>{

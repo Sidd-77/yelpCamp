@@ -22,5 +22,22 @@
                 2 days ago
             </div>
         </div>
+        <h3>Leave a Review</h3>
+        <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="rating">Rating</label>
+                <input type="range" class="form-range"  name="review[rating]" min="1" max="5" id="rating">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="">Review</label>
+                <textarea class="form-control" name="review[body]" id="body" cols="30" rows="4" required></textarea>
+                <div class="valid-feedback">Looks Good</div>
+            </div>
+            <button class="btn btn-success mb-3">Submit</button>
+        </form>
     </div>
+</div>
+
+<div>
+
 </div>
