@@ -8,7 +8,8 @@ const ExpressError = require("./utils/ExpressError");
 const {campgroundSchema, reviewSchema} = require('./schemas');
 const campgrounds = require('./routes/campground');
 const reviews = require('./routes/review');
-
+const session = require('express-session');
+const flash = require('connect-flash');
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp',{
     useNewUrlParser: true,
@@ -27,6 +28,27 @@ app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+const sessionConf = {
+    secret: 'badsecrete',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000*60*60*24*7,
+        maxAge: 1000*60*60*24*7,
+    }
+}
+app.use(session(sessionConf));
+app.use(flash());
+
+app.use((req,res,next)=>{
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
 //Routes
 app.use('/campgrounds',campgrounds);
 app.use('/campgrounds/:id/reviews',reviews);
