@@ -19,7 +19,7 @@ db.once("open",()=>{
 
 const DBseed = async () =>{
     await Campground.deleteMany({});
-    for(let i=0;i<20;i++){
+    for(let i=0;i<15;i++){
         const random20= Math.floor(Math.random()*citites.length);
         const price = Math.floor(Math.random()*300);
         const camp = new Campground({
@@ -27,6 +27,7 @@ const DBseed = async () =>{
             location: `${citites[random20].largestCity}, ${citites[random20].name}`,
             image: 'https://picsum.photos/600/300',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis recusandae non consequatur, fugiat itaque molestiae voluptatibus aspernatur omnis velit cumque similique corporis iusto rem modi, sapiente reprehenderit, deleniti placeat amet.',
+            author: '64d212772fcb7af1a1fd68f7',
             price
         });
         await camp.save();
