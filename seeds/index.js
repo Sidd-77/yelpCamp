@@ -25,7 +25,16 @@ const DBseed = async () =>{
         const camp = new Campground({
             title: `${discriptors[Math.floor(Math.random()*discriptors.length)]} ${places[Math.floor(Math.random()*places.length)]}`,
             location: `${citites[random20].largestCity}, ${citites[random20].name}`,
-            image: 'https://picsum.photos/600/300',
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dlipe6mvl/image/upload/v1692562347/yelpCamp/qdqk4dtopuhahuymizqw.jpg',
+                  filename: 'yelpCamp/qdqk4dtopuhahuymizqw',
+                },
+                {
+                  url: 'https://res.cloudinary.com/dlipe6mvl/image/upload/v1692562347/yelpCamp/hhzftvcn2hdu4rft9hna.jpg',
+                  filename: 'yelpCamp/hhzftvcn2hdu4rft9hna',
+                }
+              ],
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis recusandae non consequatur, fugiat itaque molestiae voluptatibus aspernatur omnis velit cumque similique corporis iusto rem modi, sapiente reprehenderit, deleniti placeat amet.',
             author: '64d212772fcb7af1a1fd68f7',
             price
