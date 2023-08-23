@@ -2,11 +2,13 @@
 
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
+
+
 <div class="row">
     <div class="col-6">
         <div class="card mb-3">
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
+                <div class="carousel-inner rounded">
                     <% campground.images.forEach((image, i)=> {  %>
                     <div class="carousel-item <%= i === 0 ? 'active': '' %>">
                             <img class="d-block w-100" src="<%= image.url %>" alt="...">
@@ -45,6 +47,7 @@
         </div>
     </div>
     <div class="col-6">
+        <div class="mb-3 map-container rounded" id='map' style='width: auto; height: 300px;'></div>
         <% if(currentUser){ %>
         <h3>Leave a Review</h3>
         <br>
@@ -93,3 +96,18 @@
     </div>
     </div>
 </div>
+
+
+<script>
+    mapboxgl.accessToken = '<%- process.env.MAPBOX_TOKEN %>';
+    const map = new mapboxgl.Map({
+    container: 'map', // container ID
+    style: 'mapbox://styles/mapbox/satellite-streets-v12', // style URL
+    center: [<%- campground.geometry.coordinates %>], // starting position [lng, lat]
+    zoom: 10, // starting zoom
+    });
+
+    const marker1 = new mapboxgl.Marker()
+        .setLngLat([<%- campground.geometry.coordinates %>])
+        .addTo(map);
+</script>

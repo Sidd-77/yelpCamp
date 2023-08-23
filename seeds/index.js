@@ -37,6 +37,7 @@ const DBseed = async () =>{
               ],
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis recusandae non consequatur, fugiat itaque molestiae voluptatibus aspernatur omnis velit cumque similique corporis iusto rem modi, sapiente reprehenderit, deleniti placeat amet.',
             author: '64d212772fcb7af1a1fd68f7',
+            geometry: { type: 'Point', coordinates: [ -81.605515, 40.888456 ] },
             price
         });
         await camp.save();
