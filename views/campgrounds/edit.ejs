@@ -14,9 +14,9 @@
                     value="<%=campground.location %>" required>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="image">Add images</label>
-                <input type="file" name="image" id="image" multiple>
-            </div>
+                <label for="formFileMultiple" class="form-label">Add images</label>
+                <input class="form-control" type="file" name="image" id="formFileMultiple" multiple>
+              </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Campground Price</label>
                 <div class="input-group">
@@ -35,12 +35,10 @@
                 <% campground.images.forEach(function(img,i){ %>
                     <div class="m-2 col-sm">
                         <label for="image-<%= i %>"><img class="img-fluid rounded card-img-top m-1"  src="<%= img.url %>" alt=""></label>
-                        
                         <div class="">
                             <input type="checkbox" name="deleteImages[]" value="<%= img.filename %>" id="image-<%= i %>">
                             <label for="image-<%= i %>">Delete?</label>
                         </div>
-                        
                     </div>
                 <% }) %>
             </div>
@@ -48,8 +46,6 @@
                 <button class="btn btn-info">Update Campground</button>
             </div>
         </form>
-        <a href="/campgrounds/<%= campground._id%>">Back To Campground</a>
-
     </div>
 </div>
 

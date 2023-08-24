@@ -18,8 +18,15 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/user');
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const MongoDBStore = require('connect-mongo');
 
-mongoose.connect('mongodb://127.0.0.1:27017/yelp',{
+//'mongodb://127.0.0.1:27017/yelp'
+const dbUrl = process.env.DB_URL;
+//const dbUrl = 'mongodb://127.0.0.1:27017/yelp';
+
+mongoose.connect(dbUrl,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -37,14 +44,26 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize());
+app.use(helmet({contentSecurityPolicy: false}))
 
+const store = MongoDBStore.create({
+    mongoUrl:dbUrl,
+    touchAfter: 24 * 3600,
+})
+
+store.on("error", function(er){
+    console.log("Session Store Error",er);
+})
 
 const sessionConf = {
+    store,
     secret: 'badsecrete',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        //secure: true,
         expires: Date.now() + 1000*60*60*24*7,
         maxAge: 1000*60*60*24*7,
     }
@@ -69,11 +88,15 @@ app.use('/campgrounds',campgroundRoutes);
 app.use('/campgrounds/:id/reviews',reviewRoutes);
 app.use('/users',userRoutes);
 
-app.get('/fakeuser', async(req,res)=>{
-    const user = new User({email: 'sidd@gmail.com', username:'Sidd'});
-    const newUser = await User.register(user,'passwod');
-    console.log(newUser);
-    res.send(newUser);
+// app.get('/fakeuser', async(req,res)=>{
+//     const user = new User({email: 'sidd@gmail.com', username:'Sidd'});
+//     const newUser = await User.register(user,'passwod');
+//     console.log(newUser);
+//     res.send(newUser);
+// })
+
+app.get('/home',(req,res)=>{
+    res.render('home');
 })
 
 
